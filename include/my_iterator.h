@@ -173,6 +173,76 @@ public:
     }
 };
 
+// =========== vector iterator ===========
+template <typename T>
+class vector_iterator : public  mystl::iterator<random_access_iterator_tag, T> {
+
+public:
+    using iterator_type = T*;
+    using iterator_category = random_access_iterator_tag;
+    using value_type = T;
+    using difference_type = ptrdiff_t;
+    using pointer = T*;
+    using reference = T&;
+
+private:
+    pointer ptr_;
+
+public:
+    vector_iterator() : ptr_(nullptr) {}
+
+    explicit vector_iterator(pointer ptr) : ptr_(ptr) {}
+
+    reference operator*() const {return *ptr_;}
+
+    pointer operator->() const {return ptr_;}
+
+    vector_iterator& operator++() {++ptr_;return *this;}
+
+    vector_iterator operator++(int) {
+        vector_iterator temp = *this;
+        ++ptr_;
+        return temp;
+    }
+
+    vector_iterator& operator--() {--ptr_;return *this;}
+
+    vector_iterator operator--(int) {
+        vector_iterator temp = *this;
+        --ptr_;
+        return temp;
+    }
+
+    vector_iterator operator+(difference_type n) const {
+        return vector_iterator(ptr_ + n);
+    }
+
+    vector_iterator operator-(difference_type n) const {
+        return vector_iterator(ptr_ - n);
+    }
+
+    difference_type operator-(const vector_iterator& other) const {
+        return ptr_ - other.ptr_;
+    }
+
+    bool operator==(const vector_iterator& other) const {
+        return ptr_ == other.ptr_;
+    }
+    bool operator!=(const vector_iterator& other) const {
+        return ptr_ != other.ptr_;
+    }
+    bool operator<(const vector_iterator& other) const {
+        return ptr_ < other.ptr_;
+    }
+    bool operator>(const vector_iterator& other) const {
+        return ptr_ > other.ptr_;
+    }
+
+    pointer base() const { return ptr_;}
+
+};
+
+
 
 } // namespace mystl
 

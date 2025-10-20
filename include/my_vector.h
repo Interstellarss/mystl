@@ -5,6 +5,7 @@
 #include <memory>
 #include "my_allocator.h"
 #include "my_iterator.h"
+#include "my_utility.h"
 
 namespace mystl {
 
@@ -19,8 +20,8 @@ public:
     using const_reference = const value_type&;
     using pointer = typename allocator_type::value_type*;
     using const_pointer = const typename allocator_type::value_type*;
-    using iterator = value_type*;
-    using const_iterator = const value_type*;
+    using iterator = vector_iterator<value_type>;
+    using const_iterator = vector_iterator<const value_type>;
     using reverse_iterator = mystl::reverse_iterator<iterator>;
     using const_reverse_iterator = mystl::reverse_iterator<const_iterator>;
 
@@ -149,35 +150,56 @@ public:
 
     // ===== Iterator Support =====
     iterator begin() noexcept {
-        return start_;
+        return iterator(start_);
     }
 
     iterator end() noexcept {
-        return finish_;
+        return iterator(finish_);
     }
 
     const_iterator begin() const noexcept {
-        return start_;
+        return const_iterator(start_);
     }
 
     const_iterator end() const noexcept {
-        return finish_;
+        return const_iterator(finish_);
     }
 
     reverse_iterator rbegin() noexcept {
-        return reverse_iterator(finish_);
+        return reverse_iterator(iterator(finish_));
     }
 
     reverse_iterator rend() noexcept {
-        return reverse_iterator(start_);
+        return reverse_iterator(iterator(start_));
     }
 
     const_reverse_iterator rbegin() const noexcept {
-        return const_reverse_iterator(finish_);
+        return const_reverse_iterator(const_iterator(finish_));
     }
 
     const_reverse_iterator rend() const noexcept {
-        return const_reverse_iterator(start_);
+        return const_reverse_iterator(const_iterator(start_));
+    }
+
+    // ===== Swap (no std::swap) =====
+    void swap(MyVector& other) noexcept {
+        if (this == &other) return;
+
+        pointer tmp_start = start_;
+        start_ = other.start_;
+        other.start_ = tmp_start;
+
+        pointer tmp_finish = finish_;
+        finish_ = other.finish_;
+        other.finish_ = tmp_finish;
+
+        pointer tmp_end = end_of_storage_;
+        end_of_storage_ = other.end_of_storage_;
+        other.end_of_storage_ = tmp_end;
+
+        allocator_type tmp_alloc = mystl::move(alloc_);
+        alloc_ = mystl::move(other.alloc_);
+        other.alloc_ = mystl::move(tmp_alloc);
     }
 
 private:
@@ -226,8 +248,14 @@ private:
         finish_ = new_finish;
         end_of_storage_ = start_ + new_cap;
     }
-
 };
+
+// Non-member swap
+template <class T, class Alloc>
+void swap(MyVector<T, Alloc>& lhs, MyVector<T, Alloc>& rhs) noexcept {
+    lhs.swap(rhs);
 }
 
+
+}// namesapce mystl
 #endif // MY_VECTOR_H
