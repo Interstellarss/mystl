@@ -9,6 +9,9 @@
 #include "my_set.h"
 #include "my_map.h"
 #include "my_hashtable.h"
+#include "my_unordered_set.h"
+#include "my_unordered_map.h"
+
 #include "my_utility.h"
 #include "my_algorithm.h"
 
@@ -273,6 +276,31 @@ int main() {
     std::cout << "\nErasing key 1...\n";
     table.erase(1);
     table.print_debug();
+
+    std::cout << "======== Test MyUnorderedMap =============\n";
+
+
+    mystl::MyUnorderedMap<std::string, int> umap;
+    umap["apple"] = 10;
+    umap["banana"] = 20;
+    umap.insert("orange", 30);
+
+    umap.print_debug();
+
+    std::cout << "banana: " << *umap.find("banana") << "\n";
+    umap.erase("apple");
+    umap.print_debug();
+
+    std::cout << "======== Test MyUnorderedSet =============\n";
+    
+    mystl::MyUnorderedSet<int> uset;
+    uset.insert(5);
+    uset.insert(7);
+    uset.insert(7);
+    uset.insert(9);
+
+    uset.print_debug();
+    std::cout << "Contains 7? " << (uset.contains(7) ? "Yes" : "No") << "\n";
 
     std::cout <<std::endl;
 
