@@ -11,9 +11,14 @@
 #include "my_hashtable.h"
 #include "my_unordered_set.h"
 #include "my_unordered_map.h"
+#include "ptr/my_ptr.h"
+#include "ptr/my_unique_ptr.h"
+
 
 #include "my_utility.h"
 #include "my_algorithm.h"
+
+
 
 int main() {
 
@@ -303,6 +308,34 @@ int main() {
     std::cout << "Contains 7? " << (uset.contains(7) ? "Yes" : "No") << "\n";
 
     std::cout <<std::endl;
+
+    std::cout << "======== Test MyUniquePtr =============\n";
+    mystl::MyUniquePtr<int> uptr1(new int(10));
+    std::cout << "uptr1 value: " << *uptr1 << std::endl;
+    mystl::MyUniquePtr<int> uptr2 = std::move(uptr1);
+    std::cout << "uptr2 value: " << *uptr2 << std::endl;
+    std::cout << "uptr1 is now null: " << (uptr1.get() == nullptr) << std::endl;
+
+    std::cout << "======== Test MySharedPtr =============\n";
+    mystl::MySharedPtr<int> sptr1 = mystl::MyMakeShared<int>(20);
+    std::cout << "sptr1 value: " << *sptr1 << std::endl;
+    std::cout << "sptr1 use count: " << sptr1.use_count() << std::endl;
+    {
+        mystl::MySharedPtr<int> sptr2 = sptr1;
+        std::cout << "sptr1 use count: " << sptr1.use_count() << std::endl;
+    }
+    std::cout << "sptr1 use count: " << sptr1.use_count() << std::endl;
+
+    std::cout << "======== Test MyWeakPtr =============\n";
+    mystl::MyWeakPtr<int> wptr1(sptr1);
+    std::cout << "wptr1 expired: " << wptr1.expired() << std::endl;
+    if (auto sptr3 = wptr1.lock()) {
+        std::cout << "sptr3 value: " << *sptr3 << std::endl;
+        std::cout << "sptr1 use count: " << sptr1.use_count() << std::endl;
+    }
+    sptr1 = nullptr;
+    std::cout << "wptr1 expired: " << wptr1.expired() << std::endl;
+
 
     return 0;
 }

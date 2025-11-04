@@ -4,6 +4,7 @@
 
 ## Features
 - Containers: `MyVector`, `MyList`, `MyDeque`, `MyQueue`, `MyStack`, `MySet`, `MyMap`, `MyUnorderedSet`, `MyUnorderedMap`
+- Smart pointers: `MyUniquePtr`, `MySharedPtr`, `MyWeakPtr`, plus `MyMakeShared` with custom deleter support and safe `nullptr` resets
 - Infrastructure pieces such as `MyAllocator`, iterator adapters (e.g. `vector_iterator`, `reverse_iterator`), and a red-black tree backbone for ordered containers.
 - Algorithm utilities (`sort`, `find`, `reverse`, `copy`, `fill`, ...) implemented in `include/my_algorithm.h`.
 - Header-only usage: include what you need and link against the `mystl` interface target.
@@ -46,4 +47,3 @@ int main() {
     }
 }
 ```
-

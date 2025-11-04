@@ -15,6 +15,31 @@ constexpr typename remove_reference<T>::type&& move(T&& t) noexcept{
     return static_cast<typename remove_reference<T>::type&&>(t);
 }
 
+// ============= copy ==============
+// template <typename InputIt, typename OutputIt>
+// OutputIt copy(InputIt first, InputIt last, OutputIt result){
+//     for(; first != last; ++first, ++last){
+//         *result = *first;
+//     }
+//     return result;
+// }
+template <typename InputIt, typename OutputIt>
+OutputIt copy(InputIt first, InputIt last, OutputIt result){
+    for(; first != last; ++first, ++result){
+        *result = *first;
+    }
+    return result;
+}
+
+
+// ============== swap ==============
+template <typename T>
+void swap(T& a, T& b){
+    T tmp = mystl::move(a);
+    a = mystl::move(b);
+    b = mystl::move(tmp);
+}
+
 // forward (optional, for perfect forwarding)
 template <class T>
 constexpr T&& forward(typename remove_reference<T>::type& t) noexcept{

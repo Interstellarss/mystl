@@ -31,21 +31,6 @@ count(InputIt first, InputIt last, const T& value){
 }
 
 
-// ============= copy ==============
-// template <typename InputIt, typename OutputIt>
-// OutputIt copy(InputIt first, InputIt last, OutputIt result){
-//     for(; first != last; ++first, ++last){
-//         *result = *first;
-//     }
-//     return result;
-// }
-template <typename InputIt, typename OutputIt>
-OutputIt copy(InputIt first, InputIt last, OutputIt result){
-    for(; first != last; ++first, ++result){
-        *result = *first;
-    }
-    return result;
-}
 
 
 
@@ -57,16 +42,7 @@ void fill(ForwardIt first, ForwardIt last, const T& value){
     }
 }
 
-// ============== swap ==============
-template <typename T>
-void swap(T& a, T& b){
-    T tmp = mystl::move(a);
-    a = mystl::move(b);
-    b = mystl::move(tmp);
-}
-
-
-// =============== reverve ===========
+// =============== reverse ===========
 template <typename BidirectionalIt>
 void reverse(BidirectionalIt first, BidirectionalIt last){
     while ((first != last) && (first != --last)){
