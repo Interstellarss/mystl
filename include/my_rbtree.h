@@ -302,12 +302,14 @@ public:
 
                 } else {
                     if( z == z->parent -> right){
+                        /*
                         // Case 2: fold line
                         //         g(black)
                         //          /
                         //       p(red)
                         //          \
                         //          z(red)
+                        */
 
                         z = z-> parent;
                         rotate_left(z, root);

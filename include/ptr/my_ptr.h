@@ -67,6 +67,13 @@ public:
         }
     }
 
+    // move constructor
+    MySharedPtr(MySharedPtr&& other) noexcept
+        : m_ptr(other.m_ptr), m_block(other.m_block) {
+        other.m_ptr = nullptr;
+        other.m_block = nullptr;
+    }
+
     // --- deconstructor ---
     ~MySharedPtr() noexcept {
         if (m_block){
@@ -75,14 +82,14 @@ public:
     }
 
     // --- copy control ---
-    MySharedPtr(const MySharedPtr& other) noexcept
+    MySharedPtr(const MySharedPtr& other)
         : m_ptr(other.m_ptr), m_block(other.m_block){
         if(m_block){
             m_block -> increment_shared();
         }
     }
 
-    MySharedPtr& operator=(const MySharedPtr& other) noexcept{
+    MySharedPtr& operator=(const MySharedPtr& other){
         if(this != &other){
             // 1. release old resource
             if(m_block){
@@ -100,7 +107,26 @@ public:
         return *this;
     }
 
-    MySharedPtr& operator=(std::nullptr_t) noexcept{
+    // move assignment operator
+    MySharedPtr& operator=(MySharedPtr&& other) noexcept {
+        if (this != &other) {
+            // 1. Release current resources
+            if (m_block) {
+                m_block->decrement_shared();
+            }
+
+            // 2. Take ownership from other
+            m_ptr = other.m_ptr;
+            m_block = other.m_block;
+
+            // 3. Nullify other's resources
+            other.m_ptr = nullptr;
+            other.m_block = nullptr;
+        }
+        return *this;
+    }
+
+    MySharedPtr& operator=(std::nullptr_t){
         if(m_block){
             m_block->decrement_shared();
             m_block = nullptr;
