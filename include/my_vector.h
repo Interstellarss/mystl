@@ -106,6 +106,13 @@ public:
         alloc_.destroy(finish_);
     }
 
+    value_type back(){
+        if(empty()){
+            throw std::out_of_range("Vecotr is empty");
+        }
+        return start_[size()-1];
+    }
+
     void clear() noexcept {
         while (finish_ != start_) {
             --finish_;

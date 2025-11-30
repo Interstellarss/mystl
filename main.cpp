@@ -8,6 +8,7 @@
 #include "my_rbtree.h"
 #include "my_set.h"
 #include "my_map.h"
+#include "my_binary_heep.h"
 #include "my_hashtable.h"
 #include "my_unordered_set.h"
 #include "my_unordered_map.h"
@@ -335,6 +336,29 @@ int main() {
     }
     sptr1 = nullptr;
     std::cout << "wptr1 expired: " << wptr1.expired() << std::endl;
+
+    std::cout << "======== Test  MyBinary Heap =============\n";
+    mystl::MyBinaryHeap<int> heap;
+
+    heap.push(10);
+    heap.push(50);
+    heap.push(20);
+    heap.push(40);
+
+    //std::cout << " Test! \n" << std::endl;
+
+    while (!heap.empty())
+    {
+        //std::cout << " Test! \n" << std::endl;
+        std::cout << heap.top() << " ";
+        //std::cout << " Test! \n" << std::endl;
+        heap.pop();
+    }
+    std::cout << std::endl;
+    std::cout << " MyBinaryHeap Test Finished! \n" << std::endl;
+
+    std::cout << "======== Test Priority Queue =============\n";
+    
 
 
     return 0;
