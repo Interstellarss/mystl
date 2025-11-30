@@ -31,6 +31,13 @@ OutputIt copy(InputIt first, InputIt last, OutputIt result){
     return result;
 }
 
+template <typename Pair>
+struct extract_key {
+    const typename Pair::first_type& operator()(const Pair& p) const noexcept {
+        return p.first;
+    }
+};
+
 
 // ============== swap ==============
 template <typename T>

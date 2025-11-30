@@ -1,5 +1,5 @@
-#ifndef MY_PRIORITY_QUEUE_H
-#define MY_PRIORITY_QUEUE_H
+#ifndef MY_MYPRIORITYQUEUE_H
+#define MY_MYPRIORITYQUEUE_H
 
 #include "my_binary_heep.h"
 
@@ -8,7 +8,7 @@ namespace mystl {
 template <typename T,
           typename Container = mystl::MyVector<T>,
           typename Compare = std::less<T>>
-class priority_queue{
+class MyPriorityQueue{
 public:
     using valu_type = T;
     using size_type = typename Container::size_type;
@@ -16,11 +16,11 @@ public:
     using const_reference = const valu_type&;
 
 private:
-    mystl::MyBinaryHeap<T, Container, Compareheap_;
+    mystl::MyBinaryHeap<T, Container, Compare>heap_;
 
 public:
-    priority_queue() = default;
-    explicit priority_queue(const Compare& comp) : heap_(comp) {}
+    MyPriorityQueue() = default;
+    explicit MyPriorityQueue(const Compare& comp) : heap_(comp) {}
 
     bool empty() const { return heap_.empty();}
 
@@ -34,4 +34,4 @@ public:
 
 };
 }
-#endif //MY_PRIORITY_QUEUE_H
+#endif //MY_MYPRIORITYQUEUE_H

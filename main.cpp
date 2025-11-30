@@ -12,6 +12,10 @@
 #include "my_hashtable.h"
 #include "my_unordered_set.h"
 #include "my_unordered_map.h"
+#include "my_multiset.h"
+#include "my_multimap.h"
+#include "my_priority_queue.h"
+
 #include "ptr/my_ptr.h"
 #include "ptr/my_unique_ptr.h"
 
@@ -19,6 +23,7 @@
 #include "my_utility.h"
 #include "my_algorithm.h"
 
+#include <string>
 
 
 int main() {
@@ -26,6 +31,7 @@ int main() {
     // =====================
     // Testing myvector
     // =====================
+    std::cout << "======== Test MyVector =============\n";
     mystl::MyVector<int> vec = {1, 2, 3, 4};
 
     vec.push_back(5);
@@ -77,8 +83,9 @@ int main() {
     // ===================
     // Test for mylist
     // ===================
+    std::cout << "\n ======== Test MyList =============\n";
 
-     mystl::MyList<int> lst = {1, 2, 3};
+    mystl::MyList<int> lst = {1, 2, 3};
 
     std::cout << "Forward: ";
     for (auto it = lst.begin(); it != lst.end(); ++it)
@@ -94,7 +101,7 @@ int main() {
     }
 
     // Test my deque
-
+    std::cout << "\n ======== Test MyDeque =============\n";
     mystl::MyDeque<int> dq = {5, 3, 1, 4, 2};
     std::cout << "\nDeque elements: ";
     for (auto it = dq.begin(); it != dq.end(); ++it) {
@@ -164,6 +171,8 @@ int main() {
     }
     std::cout << "Validation deque " << (validation_ok ? "passed" : "failed") << "\n";
 
+    std::cout << "======== Test MyQueue =============\n";
+
 
     mystl::MyQueue<int> q;
     q.push(10);
@@ -198,7 +207,7 @@ int main() {
     std::cout << "rbtree erase done!"  << std::endl;
 
 
-        std::cout << "==== TEST MySet ====\n";
+    std::cout << "==== TEST MySet ====\n";
     mystl::MySet<int> set;
 
     set.insert(10);
@@ -358,7 +367,32 @@ int main() {
     std::cout << " MyBinaryHeap Test Finished! \n" << std::endl;
 
     std::cout << "======== Test Priority Queue =============\n";
-    
+
+    mystl::MyPriorityQueue<int> pq;
+    pq.push(10);
+    pq.push(50);
+    pq.push(20);    
+    pq.push(40);
+
+    while (!pq.empty())
+    {
+        //std::cout << " Test! \n" << std::endl;
+        std::cout << pq.top() << " ";
+        //std::cout << " Test! \n" << std::endl;
+        pq.pop();
+    }
+    std::cout << std::endl;
+    std::cout << " MyPriorityQueue Test Finished! \n" << std::endl;
+
+    std::cout << "======== Test MyMultiMap =============\n";
+
+    mystl::MyMultimap<int, std::string> mp;
+    mp.insert({1, "a"});
+    mp.insert({1, "b"});
+    mp.insert({2, "c"});
+
+
+    std::cout << " MyMultimap Test Finished! \n" << std::endl;
 
 
     return 0;

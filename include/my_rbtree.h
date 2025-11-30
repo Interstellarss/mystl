@@ -58,6 +58,8 @@ public:
     }
 
     self& operator++(){
+        if(!cur) return *this;
+
         if(cur -> right){
             //case1: right tree, find the left most of right subtree
             cur = cur -> right;
@@ -81,6 +83,8 @@ public:
     self operator++(int){ self tmp = *this; ++(*this); return tmp;}
 
     self& operator--(){
+        if(!cur) return *this;
+
         if(cur ->color == RBTreeColor::Red && cur -> parent->parent == cur){
             //current is header_ (end) back to max node
             cur = cur -> right;
@@ -143,12 +147,24 @@ private:
 public:
 
     MyRBTree() : node_count_(0), comp_(Compare()), alloc_() {
+        //alloc_.construct(header_, Value{});
+
         header_ = create_node(Value{});
-        header_->color = RBTreeColor::Black;
+        
+        header_->color = RBTreeColor::Red;
         header_ ->parent = nullptr;
         header_ -> left = header_;
         header_ -> right = header_;
 
+    }
+    
+    explicit MyRBTree(const Compare& comp) : node_count_(0), comp_(comp), alloc_() {
+        header_ = create_node(Value{});
+
+        header_->color = RBTreeColor::Red;
+        header_->parent = nullptr;
+        header_->left = header_;
+        header_->right = header_;
     }
     
     ~MyRBTree () {
@@ -225,7 +241,7 @@ public:
             }
         }
 
-        insert_reblance(z, root());
+        insert_rebalance(z, root());
         ++node_count_;
         return iterator(z);
     }
@@ -282,7 +298,7 @@ public:
         x->parent = y;
     }
 
-    void insert_reblance(node_ptr z, node_ptr& root){
+    void insert_rebalance(node_ptr z, node_ptr& root){
         z->color = RBTreeColor::Red;
 
         while(z != root && z-> parent->color == RBTreeColor::Red){
@@ -320,7 +336,7 @@ public:
                     //     p(red)
                     //     /
                     //  z(red)
-                    // z->parent->color = RBTreeColor::Black;
+                    z->parent->color = RBTreeColor::Black;
                     z->parent->parent->color = RBTreeColor::Red;
                     rotate_right(z->parent->parent, root);
                 }
@@ -442,8 +458,8 @@ public:
             leftmost() = header_;
             rightmost() = header_;
         }else{
-            leftmost() == minimum(root());
-            rightmost() == maximum(root());
+            leftmost() = minimum(root());
+            rightmost() = maximum(root());
         }
                 
 
